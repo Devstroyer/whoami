@@ -1,0 +1,271 @@
+﻿@import url('reset.css');
+
+body{
+	background:#e4ebe9 url(../images/pattern.png) repeat top left;
+	color:#000;
+	font-family: 'PT Sans Narrow', Arial, sans-serif;
+	font-size:12px;
+}
+a{
+	color:#000;
+	text-decoration:none;
+}
+.clr{
+	clear:both;
+}
+h1, h5{
+	margin:15px;
+	font-size:44px;
+	color:#000;
+	font-family: 'Rochester', sans-serif;
+	text-shadow:1px 1px 1px #fff;
+	text-align:center;
+}
+h1 span, h5{
+	font-size:20px;
+	display:block;
+	color:#60817a;
+}
+/* Header Style */
+.header{
+	height:25px;
+	line-height:24px;
+	font-size:13px;
+	background:#000;
+	opacity:0.9;
+	text-transform:uppercase;
+}
+.header a{
+	padding:5px 10px;
+	letter-spacing:1px;
+	text-shadow:1px 1px 1px #000;
+	color:#ddd;
+	text-align:right;
+}
+.header a:hover{
+	color:#fff;
+}
+.header a span{
+	font-weight:bold;
+}
+.header span.right_ab{
+	position:absolute;
+	right:4px;
+}
+
+.sidebar{
+	width:12%;
+	height:100%;
+	line-height:24px;
+	font-size:20px;
+	background:#383838; /* Paskudztwo: zmienić kolor ramki w li na taki sam. Bo CSS jest doskonale pomyślany. */
+	opacity:0.9;
+	text-transform:uppercase;
+	z-index:4;
+	float: left;
+}
+
+.sidebar ul {
+	height: 100%;
+}
+
+.sidebar li{
+	background:#777777;
+	text-align:center;
+	height:10%; /* Mamy 10 przycisków, więc... */
+	width:100%;
+	color:#ffffff;
+	box-sizing: border-box;	
+	border-bottom: 3px solid #383838; /* Zmienić kolor tła w sidebarze też! Jeśli go widać. Czy go widać? Nie powinno go być widać...*/
+	border-left: 1px solid #383838;
+	border-right: 1px solid #383838;
+}
+
+.sidebar li img{
+	height:50px;
+	width:50px;
+	
+}
+
+
+.sidebar li:hover{
+	background:#dddddd;	
+}
+
+.content{
+	height:100%;
+	width:88%; /*100% - sidebar*/
+	position:relative;
+	float: left;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 5px 0px 0px 5px;
+}
+
+h2 { 
+   position: absolute; 
+   bottom: 0; 
+   left: 0;
+   width: 100%; 
+   background: rgba(0, 0, 0, 0.7); 
+   text-align:center;
+}
+
+h2 span { 
+   color: white; 
+   letter-spacing: -1px;
+   font-size:30px;  
+   padding: 10px; 
+}
+
+.tile {
+	float: left;
+	overflow: hidden;
+	height: 100%;
+	box-sizing: border-box;
+	border: 5px solid transparent;
+}
+
+.tile img {
+	height: 100%;
+	width: 100%;
+}
+
+.about{
+	width:60%;
+}
+
+.pracownicy{
+	width:40%;
+}
+
+.galeria{
+	width:40%;
+}
+
+.blury {
+	display:none;
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	background: rgba(0, 0, 0, 0.7); 
+	z-index:5;
+}
+.blury .model{
+	position:absolute;
+	background: rgba(192, 192, 192, 0.95); 
+	top:5%;
+	left:10%;
+	height:85%;
+	width:85%;
+}
+.blury .model .naglowek{
+	background: rgba(222, 222, 222, 0.9); 
+	height:5%;
+	width:100%;
+}
+.blury .model .tresc{
+	height:95%;
+	width:100%;
+}
+.blury .model object{
+	width: 100%;
+	height: 100%;
+}
+
+.blury .model img{
+	position: absolute;
+	right:20px;
+	top:10px;
+}
+
+.film{
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%;
+	min-height: 100%;
+	z-index: 6; /* Powinno być na wierzchu wszystkiego, co mamy */
+}
+
+
+.tile-hover {
+	filter: brightness(1.1);
+	z-index:2;
+}
+
+.blurred {
+	filter: blur(5px);
+	-webkit-filter: blur(5px);
+}
+
+.kontener {
+    position: absolute;
+	top: 0px;
+	bottom: 25px; /* Idiotyzm, ale chyba o to chodzi: od powierzchni kontenera trzeba odjąć łączną powierzchnię pionowych marginów, by elementy poza niego nie wychodziły, pytajnik pytajnik pytajnik */
+	left: 0px;
+	right: 0px;
+}
+
+#first-row {
+	height: 66%;
+	width: 100%;
+	float: left;
+}
+
+.half-row {
+	height: 50%;
+}
+
+#second-row {
+	height: 34%;
+	width: 100%;
+	float: left;
+}
+
+#second-row .tile {
+	width: 33.333%;
+}
+
+/* Strona domyślnie po polsku */
+.eng {
+	display: none;
+}
+
+#naglowek-tresc {
+	line-height: 39px; /*Z grubsza = wysokości nagłówka. Jeśli wysokość nagłówka się zmieni, przestani działać ^^*/
+}
+
+#naglowek-tresc h1{
+	margin: 0px;
+	font-size: 22px;
+	text-align: center;
+}
+
+#flag{
+	width:75px;
+}
+/* Do ruchomych kafli, żeby się rozmiar dopasowywał */
+.slick-slider {
+	height: 100%;
+}
+.slick-list {
+	height: 100%;
+}
+.slick-track {
+	height: 100%;
+}
+
+#model-lang img {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	height: 34px; /*Wybrane na oko ^^*/
+}
+
+/* Strona domyślnie po polsku */
+#model-lang-eng {
+	display: none;
+}

@@ -1,0 +1,89 @@
+
+body{
+	background:#e4ebe9;
+	color:#000;
+	font-family: 'PT Sans Narrow', Arial, sans-serif;
+	font-size:12px;
+}
+
+.logodiv{
+	height:180px;
+	width:300px;
+	position: absolute;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+}
+
+.logodiv img{
+	height:180px;
+	width:300px;
+}
+
+
+.mydiv{
+	position: absolute;
+	top:10;
+	right:10;
+	height:150px;
+	width:300px;
+	background-color: #ababab;
+}
+
+.listplayers{
+	position: absolute;
+	top:170;
+	right:10;
+	height:700px;
+	width:300px;
+	background-color: #ababab;
+}
+
+.chatbox{
+	position: absolute;
+	top:400;
+	left:0;
+	right:0;
+	height:500px;
+	width:500px;
+	margin: auto;
+	background-color: #ababab;
+}
+#data{
+	position:absolute;
+	bottom:0;
+	left:100px;
+	width:400px;
+}
+
+#datasend{
+	position:absolute;
+	bottom:0;
+}
+
+#conversation{
+	overflow-y:scroll; 
+	
+}
+
+
+.form{
+	position: absolute;
+	top:170;
+	left:0;
+	right:0;
+	height:200px;
+	width:500px;
+	margin:auto;
+	background-color: #ababab;
+}
+
+.history{
+	position: absolute;
+	top:170;
+	left:10;
+	height:700px;
+	width:300px;
+	background-color: #ababab;
+}
