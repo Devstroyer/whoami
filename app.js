@@ -24,6 +24,7 @@ var yes=0;
 var no=0;
 var maybe=0;
 var finish=0;
+var upquest='';
 
 var currentplayer=0;
 
@@ -59,8 +60,11 @@ io.sockets.on('connection', function (socket) {
 
     io.to(table[currentplayer].id).emit('setguessing',0);
 
+    socket.emit('setmyself',object);
+    socket.emit('uppyta',upquest);
+    socket.emit('refresh',table);
+    io.sockets.emit('updateusers', table);
     socket.emit('getphase',currentphase);
-
 
 
     
@@ -69,11 +73,10 @@ io.sockets.on('connection', function (socket) {
     // add the client's username to the global list
     usernames[username] = username;
     // echo to client they've connected
-    socket.emit('setmyself',object); 
     // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('updatechat', 'SERVER', username + ' has connected');
+    socket.broadcast.emit('updatechat', 'SERVER', username + ' się połączył');
     // update the list of users in chat, client-side
-    io.sockets.emit('updateusers', table);
+   
 
    // io.to(object.id).emit('message', 'for your eyes only');
   });
@@ -89,6 +92,8 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('ask', function (data) {
      currentphase=2;
+     upquest=data;
+     socket.broadcast.emit('question',data);
      io.sockets.emit('getphase', currentphase);
      yes=0;
      no=0;
@@ -115,7 +120,7 @@ io.sockets.on('connection', function (socket) {
        if(table[currentplayer].round<10){
           table[currentplayer].round++;
        }
-       io.sockets.emit('refresh',table);
+       
        io.to(table[currentplayer].id).emit('addhistory','no');
 
 
@@ -134,6 +139,7 @@ io.sockets.on('connection', function (socket) {
           currentphase=1;          
         }
         table[currentplayer].guessing=true;
+        io.sockets.emit('refresh',table);
         io.to(table[currentplayer].id).emit('setguessing',0);
         io.sockets.emit('getphase', currentphase);
      }
@@ -160,7 +166,6 @@ io.sockets.on('connection', function (socket) {
        table[currentplayer].round=1;
        io.to(table[currentplayer].id).emit('setlast',table[currentplayer].character);
        table[currentplayer].character="";
-       io.sockets.emit('refresh',table);
 
 
         if(currentplayer==table.length-1){
@@ -178,6 +183,7 @@ io.sockets.on('connection', function (socket) {
           currentphase=1;          
         }
         table[currentplayer].guessing=true;
+        io.sockets.emit('refresh',table);
         io.to(table[currentplayer].id).emit('setguessing',0);
         io.sockets.emit('getphase', currentphase);
     }
@@ -216,6 +222,11 @@ io.sockets.on('connection', function (socket) {
          
         }
       }
+      else{
+        if(index<currentplayer){
+          currentplayer--;
+        }
+      }
 
       table.splice(index, 1);
     }
@@ -226,6 +237,6 @@ io.sockets.on('connection', function (socket) {
     // update list of users in chat, client-side
     io.sockets.emit('updateusers', table);
     // echo globally that this client has left
-    socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+    socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' się rozłączył');
   });
 });

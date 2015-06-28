@@ -7,6 +7,9 @@
   var isguessing=false;
   var lastasked='';
   var lastchar='';
+  var currentplayer='';
+  var currentcharacter='';
+  var pytanie='';
   function compare(a,b) {
       if (a.points > b.points)
         return -1;
@@ -19,7 +22,7 @@
   // on connection to server, ask for user's name with an anonymous callback
   socket.on('connect', function(){
     // call the server-side function 'adduser' and send one parameter (value of prompt)
-    socket.emit('adduser', prompt("What's your name?"));
+    socket.emit('adduser', prompt("Jak masz na imie?"));
   });
   // listener, whenever the server emits 'updatechat', this updates the chat body
   socket.on('updatechat', function (username, data) {
@@ -27,7 +30,7 @@
   });
 
   socket.on('setmyself',function (data){
-        $('.mydiv').append('<p>name: '+data.name+'</p><p>points:'+data.points+'</p><p>last character : '+lastchar+'</p>');
+        $('.mydiv').append('<p>Imie: '+data.name+'</p><p>Punkty: '+data.points+'</p><p>Ostatnia postać : '+lastchar+'</p>');
         myid=data.id;
   });
 
@@ -36,11 +39,18 @@
     data.sort(compare);
     data.forEach( function (data)
       {
+
+          if(data.guessing){
+            currentplayer=data.name;
+            currentcharacter=data.character;
+            $('.overform .hedor').empty();
+            $('.overform .hedor').append("<p>Aktualnie pyta: "+currentplayer+"</p>");
+          }
           if(data.id==myid){
-            $('.listplayers').append("<p>YOU</p>");
+            $('.listplayers').append("<p id='you'>TY!!</p>");
           }
           else{
-            $('.listplayers').append('<p>name: '+data.name+'</p><p>points:'+data.points+'</p><p>guessing :'+data.character+'</p>');
+            $('.listplayers').append('<div class="playerelem"><p>Imię: '+data.name+'</p><p>Punkty: '+data.points+'</p><p>Postać :'+data.character+'</p></div>');
           }
       });
   });
@@ -50,15 +60,23 @@
     data.sort(compare);
     data.forEach( function (data)
       {
+
+          if(data.guessing){
+            currentplayer=data.name;
+            currentcharacter=data.character;
+            $('.overform .hedor').empty();
+            $('.overform .hedor').append("<p>Aktualnie pyta: "+data.name+"</p>");
+
+          }
           if(data.id==myid){
-            $('.listplayers').append("<p>YOU</p>");
+            $('.listplayers').append("<p id='you'>TY!!</p>");
             $('.mydiv').empty();
-            $('.mydiv').append('<p>name: '+data.name+'</p><p>points:'+data.points+'</p><p>last character : '+lastchar+'</p>');
+            $('.mydiv').append('<p>Imię: '+data.name+'</p><p>Punkty: '+data.points+'</p><p>Ostatnia postać : '+lastchar+'</p>');
             isguessing=data.guessing;
 
           }
           else{
-            $('.listplayers').append('<p>name: '+data.name+'</p><p>points:'+data.points+'</p><p>guessing :'+data.character+'</p>');
+            $('.listplayers').append('<div class="playerelem"><p>Imię: '+data.name+'</p><p>Punkty:'+data.points+'</p><p>Postać:'+data.character+'</p></div>');
           }
       });
   });
@@ -67,38 +85,37 @@
 
 
   socket.on('getphase', function (data) {
-    $('#conversation').append('<p>'+data+'</p>');
     switch(data) {
     case 0:
         if(isguessing){
           $('.form').empty();
-          $('.form').append('czekaj az inni podadza twoja postac');
+          $('.form').append('<p>Czekaj aż inni wymyślą Ci postac</p>');
           $('#conversation').append('<p>twoja tura</p>');
         }
         else{
         $('.form').empty();
-        $('.form').append('<div id="setter"></div><input id="characterprop" style="width:200px;" /><input type="button" id="charsend" value="set" />');
+        $('.form').append('<p>Ustaw postać gracza: '+currentplayer+'</p><input id="characterprop" style="width:200px;" /><input type="button" id="charsend" value="Ustaw" />');
         }
         break;
     case 1:
         if(isguessing){
           $('.form').empty();
-          $('.form').append('<input id="pytanie" style="width:200px;" /><input type="button" id="pytaj" value="pytaj" />');
+          $('.form').append('<p>Zadaj zamknięte pytanie dotyczące twojej postaci</p><input id="pytanie" style="width:200px;" /><input type="button" id="pytaj" value="pytaj" />');
         }
         else{
           $('.form').empty();
-          $('.form').append('wait');
+          $('.form').append('</div><p>Czekaj na pytanie od gracza</p>');
         }
         break;
 
      case 2:
         if(isguessing){
           $('.form').empty();
-          $('.form').append('czekaj na odopwiedz');
+          $('.form').append('<p>Czekaj na odpowiedź</p>');
         }
         else{
           $('.form').empty();
-          $('.form').append('<input type="button" id="tak" value="tak" /><input type="button" id="nie" value="nie" /><input type="button" id="moze" value="może" /><input type="button" id="finish" value="postac odgadnieta" />');
+          $('.form').append('<p>'+currentcharacter+'</p><p>'+pytanie+'</p><input type="button" id="tak" value="tak" /><input type="button" id="nie" value="nie" /><input type="button" id="moze" value="może" /><input type="button" id="finish" value="postac odgadnieta" />');
         }
        
         break;
@@ -118,7 +135,7 @@
 
   socket.on('yourturn', function (data) {
     $('.form').empty();
-    $('.form').append('czekaj az inni podadza twoja postac');
+    $('.form').append('<p>Czekaj az inni wymyślą Ci postać</p>');
     $('#conversation').append('<p>twoja tura</p>');
   });
 
@@ -126,13 +143,13 @@
   socket.on('addhistory', function (data) {
     switch(data) {
       case 'yes':
-          $('.history').append("<div class='historyyes'><p>"+lastasked+"</p><p> answer:"+data+"</p></div>");
+          $('.history').prepend("<div class='historyyes'><p>"+lastasked+"</p><p> Odpowiedź:"+data+"</p></div>");
           break;
       case 'no':
-          $('.history').append("<div class='historyno'><p>"+lastasked+"</p><p> answer:"+data+"</p></div>");
+          $('.history').prepend("<div class='historyno'><p>Pytanie: "+lastasked+"</p><p> Odpowiedź:"+data+"</p></div>");
           break;
       case 'maybe':
-          $('.history').append("<div class='historymaybe'><p>"+lastasked+"</p><p> answer:"+data+"</p></div>");
+          $('.history').prepend("<div class='historymaybe'><p>"+lastasked+"</p><p> Odpowiedź:"+data+"</p></div>");
           break;
       default:;
     }
@@ -140,7 +157,15 @@
 
   socket.on('setlast', function (data) {
       lastchar=data;
-      $('.history').append("<div class='historyfinish'><p>"+lastasked+"</p><p> YOU GUESSED :"+data+"</p></div>");
+      $('.history').prepend("<div class='historyfinish'><p>"+lastasked+"</p><p> Odgadłeś! :"+data+"</p></div>");
+  });
+
+  socket.on('question', function (data) {
+      pytanie=data;
+  });
+
+  socket.on('uppyta', function (data) {
+      pytanie=data;
   });
 
 
@@ -149,43 +174,50 @@
         var message = $('#data').val();
         $('#data').val('');
         // tell server to execute 'sendchat' and send along one parameter
-        socket.emit('sendchat', message);
+        if(message!=''){
+          socket.emit('sendchat', message);
+        }
+        
     });
 
 
     $(document).on("click", "#charsend", function(e) {
           var message = $('#characterprop').val();
           $('#characterprop').val('');
-          // tell server to execute 'sendchat' and send along one parameter
-          socket.emit('setchar', message);
+          if(message!=''){
+            socket.emit('setchar', message);
+          }
+          
     });
     
     $(document).on("click", "#pytaj", function(e) {
           var message = $('#pytanie').val();
           $('#pytanie').val('');
-          lastasked= message;
-          socket.emit('ask', message);
+          if(message!=''){          
+            lastasked= message;
+            socket.emit('ask', message);
+          }
     });
 
     $(document).on("click", "#tak", function(e) {
           socket.emit('tak', 0);
           $('.form').empty();
-          $('.form').append('czekaj na innych');
+          $('.form').append('<p>Czekaj na innych</p>');
     });
     $(document).on("click", "#nie", function(e) {
           socket.emit('nie', 0);
           $('.form').empty();
-          $('.form').append('czekaj na innych');
+          $('.form').append('<p>Czekaj na innych</p>');
     });
     $(document).on("click", "#moze", function(e) {
           socket.emit('moze', 0);
           $('.form').empty();
-          $('.form').append('czekaj ana innych');
+          $('.form').append('</div><p>Czekaj ana innych</p>');
     });
         $(document).on("click", "#finish", function(e) {
           socket.emit('finish', 0);
           $('.form').empty();
-          $('.form').append('czekaj ana innych');
+          $('.form').append('</div><p>Czekaj ana innych</p>');
     });
 
 
@@ -201,7 +233,17 @@
 
 <div id="players"></div>
 <div class="mydiv"></div>
-<div class="listplayers"></div>
-<div class="form"></div>
-<div class="history"></div>
+<div class="playerlist">
+  <div class="hedor"><p>Ranking</p></div>
+  <div class="listplayers"></div>
+</div>
+<div class="overform">
+  <div class="hedor"></div>
+  <div class="form"></div>
+</div>
+
+<div class="historydiv">
+  <div class="hedor"><p>Historia twoich pytań</p></div>
+  <div class="history"></div>
+</div>
 <div class="logodiv"><img src="logo.png"></div>

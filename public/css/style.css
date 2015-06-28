@@ -1,9 +1,10 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:700);
 
 body{
 	background:#e4ebe9;
-	color:#000;
-	font-family: 'PT Sans Narrow', Arial, sans-serif;
-	font-size:12px;
+	color: #34495e;
+	font-family: 'Lato', Arial, sans-serif;
+	font-size:14px;
 }
 
 .logodiv{
@@ -23,21 +24,48 @@ body{
 
 
 .mydiv{
+	border-radius: 25px;
+	opacity: 0.6;
 	position: absolute;
 	top:10;
 	right:10;
 	height:150px;
 	width:300px;
-	background-color: #ababab;
+	background-color: #000;
 }
 
-.listplayers{
+.mydiv p{
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 23px; 
+	margin: 0;
+	padding: 10px 0;
+}
+
+.playerlist{
 	position: absolute;
 	top:170;
 	right:10;
 	height:700px;
 	width:300px;
-	background-color: #ababab;
+	background-color: #fff8a4;
+}
+
+.listplayers{
+	position: absolute;
+	top:50px;
+	height:650px;
+	width:300px;
+	background-color: #fff8a4;
+	overflow-y:auto;
+}
+
+#you{
+	text-align: center;
+	color: #000;
+	font-size: 14px;
 }
 
 .chatbox{
@@ -48,27 +76,32 @@ body{
 	height:500px;
 	width:500px;
 	margin: auto;
-	background-color: #ababab;
+	background-color: #fff8a4;
 }
 #data{
 	position:absolute;
 	bottom:0;
-	left:100px;
+	left:0px;
+	height:30px;
 	width:400px;
 }
 
 #datasend{
 	position:absolute;
+	left:400px;
+	height: 30px;
+	width:100px;
 	bottom:0;
 }
 
 #conversation{
 	overflow-y:scroll; 
+	word-wrap: break-word;
+	background-color: #fff8a4;
 	
 }
 
-
-.form{
+.overform{
 	position: absolute;
 	top:170;
 	left:0;
@@ -76,14 +109,98 @@ body{
 	height:200px;
 	width:500px;
 	margin:auto;
-	background-color: #ababab;
+	background-color: #fff8a4;
 }
 
-.history{
+.form{
+	position: absolute;
+	top:50;
+	left:0;
+	height:150px;
+	width:500px;
+	margin:auto;
+	background-color: #fff8a4;
+}
+
+.formwrap{
+	position: absolute;
+	top:50;
+	left:0;
+	right:0;
+	bottom:0;
+	height:150px;
+	width:auto;
+	margin:auto;
+}
+
+.form p{
+	text-align: center;
+	line-height: 20px;
+}
+
+.historydiv{
 	position: absolute;
 	top:170;
 	left:10;
 	height:700px;
 	width:300px;
-	background-color: #ababab;
+	background-color: #fff8a4;
+}
+
+.history{
+	position: absolute;
+	top:50px;
+	height:650px;
+	width:300px;
+	background-color: #fff8a4;
+	overflow-y:auto; 
+}
+
+#conversation{
+	background-color: #fafafa; 
+	height:470px;
+	width:500px;
+}
+
+.hedor{
+	top:0;
+	left:0;
+	height:50px;
+	background-color: #f8b84d;
+}
+
+.hedor p{
+	padding-top: 20px;
+	margin: inherit;
+	text-align: center;
+	line-height: 20px;
+}
+
+.historyyes{
+	height:100px;
+	opacity: 0.8;
+	background-color:#7ffd6e;
+}
+
+.historyno{
+	height:100px;
+	opacity: 0.8;
+	background-color:#fd5252;
+}
+
+.historymaybe{
+	height:100px;
+	opacity: 0.8;
+	background-color:#61b4ff;
+}
+
+.historyfinish{
+	height:100px;
+	opacity: 0.8;
+	background-color:#3ab06b;
+}
+
+.playerelem{
+	height:100px;
+	background-color:#afacbd;
 }
