@@ -17,7 +17,17 @@
         return 1;
       return 0;
   }
-  var socket = io.connect('http://localhost:8080');
+  
+  var LOCAL_DEBUGGING = false;
+  var socketLocalString = 'http://localhost:8080';
+  var socketRemoteString ='testpackage-rfrelas.rhcloud.com:8000';
+  var socket;
+  if(LOCAL_DEBUGGING) {
+	socket = io.connect(socketLocalString);
+  } else {
+	socket = io.connect(socketRemoteString);
+  }
+   
 
   // on connection to server, ask for user's name with an anonymous callback
   socket.on('connect', function(){
