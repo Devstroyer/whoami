@@ -5,7 +5,9 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , path = require('path');
 
-server.listen(8080);
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080	//OpenShift wymaga korzystania z jego zmiennych środowiskowych do określenia portu i IP
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1' //j.w.
+server.listen(server_port, server_ip_address);
 
 
 app.use(express.static(path.join(__dirname, 'public')));
